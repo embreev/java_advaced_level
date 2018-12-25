@@ -26,11 +26,14 @@ public class Course {
     }
 
     public void doIt(Team team) {
-        for (Competitor competitor : competitors) {
-            for (Obstacle obstacle : course) {
-                obstacle.doIt(competitor);
-                if (!competitor.isOnDistance()) break;
-            }
+        for (Competitor member: team.getMembers()) {
+
         }
+//        for (Competitor competitor : competitors) {
+//            for (Obstacle obstacle : course) {
+//                obstacle.doIt(competitor);
+//                if (!competitor.isOnDistance()) break;
+//            }
+//        }
     }
 }

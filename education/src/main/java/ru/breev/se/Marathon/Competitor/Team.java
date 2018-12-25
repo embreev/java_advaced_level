@@ -26,4 +26,7 @@ public class Team {
         System.out.println(members);
     }
 
+    public List<Competitor> getMembers() {
+        return members;
+    }
 }
