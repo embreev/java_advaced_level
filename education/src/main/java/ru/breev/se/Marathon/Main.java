@@ -1,32 +1,20 @@
 package ru.breev.se.Marathon;
 
 import ru.breev.se.Marathon.Competitor.Team;
-import ru.breev.se.Marathon.Obstacle.*;
-import ru.breev.se.Marathon.Competitor.Cat;
-import ru.breev.se.Marathon.Competitor.Dog;
-import ru.breev.se.Marathon.Competitor.Human;
-import ru.breev.se.Marathon.api.Competitor;
+import ru.breev.se.Marathon.Obstacle.Course;
 
 public class Main {
-    public static void main(String[] args) {
+    static void start(Team team) {
         Course c = new Course();
-        Team team = new Team("team1");
         c.doIt(team);
         team.showResults();
+    }
 
-//        Competitor[] competitors = {new Human("Боб"), new Cat("Барсик"), new Dog("Бобик")};
-//
-//        Obstacle[] course = {new Cross(80), new Wall(2), new Wall(1), new Cross(120)};
-//
-//        for (Competitor c : competitors) {
-//            for (Obstacle o : course) {
-//                o.doIt(c);
-//                if (!c.isOnDistance()) break;
-//            }
-//        }
-//
-//        for (Competitor c : competitors) {
-//            c.info();
-//        }
+    public static void main(String[] args) {
+
+        Team team = new Team("team1", "Petr", "Bobik", "Murzik");
+        Team team2 = new Team("team2", "Vasily", "Rex", "Barsik");
+        start(team);
+        start(team2);
     }
 }
