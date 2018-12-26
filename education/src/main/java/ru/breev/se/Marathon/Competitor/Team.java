@@ -9,12 +9,13 @@ public class Team {
     String name;
     final List<Competitor> members = new ArrayList<>();
 
-    public Team(String nameTeam) {
-        this.name = nameTeam;
-        members.add(new Human("Noname"));
-        members.add(new Dog("Noname"));
-        members.add(new Cat("Noname"));
-    }
+//    public Team(String nameTeam) {
+//        this.name = nameTeam;
+//        members.add(new Human("Noname"));
+//        members.add(new Dog("Noname"));
+//        members.add(new Cat("Noname"));
+//    }
+
     public Team(String nameTeam, String nameHuman, String nameDog, String nameCat) {
         this.name = nameTeam;
         members.add(new Human(nameHuman));
@@ -22,8 +23,14 @@ public class Team {
         members.add(new Cat(nameCat));
     }
 
+    public String getName() {
+        return name;
+    }
+
     public void showResults() {
-        System.out.println(members);
+        for (int i = 0; i < members.size(); i++) {
+            System.out.println(members.get(i).isOnDistance());
+        }
     }
 
     public List<Competitor> getMembers() {

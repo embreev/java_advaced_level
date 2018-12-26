@@ -12,8 +12,7 @@ public class Course {
     final int distance = random.nextInt(150);
     final List<Obstacle> courses = new ArrayList<>();
     final int OBS_POINTS = 5;
-    Obstacle [] course = new Obstacle[OBS_POINTS];
-    Competitor[] competitors;
+    Obstacle[] course = new Obstacle[OBS_POINTS];
 
     public Course() {
         courses.add(new Cross(distance));
@@ -26,14 +25,12 @@ public class Course {
     }
 
     public void doIt(Team team) {
-        for (Competitor member: team.getMembers()) {
-
+        System.out.println(team.getName());
+        for (Competitor member : team.getMembers()) {
+            for (Obstacle obstacle : courses) {
+                obstacle.doIt(member);
+                if (!member.isOnDistance()) break;
+            }
         }
-//        for (Competitor competitor : competitors) {
-//            for (Obstacle obstacle : course) {
-//                obstacle.doIt(competitor);
-//                if (!competitor.isOnDistance()) break;
-//            }
-//        }
     }
 }

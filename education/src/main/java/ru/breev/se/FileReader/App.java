@@ -1,9 +1,7 @@
 package ru.breev.se.FileReader;
 
-import java.io.IOException;
-
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         final String data = "bc yfammacoqlwgjj yrtstrcw  hujqgqvqqjcrsdhdb\n" +
                 " quajwsdnubbcpfrgqjc  sqxlo vcbqadqj j vloetrk e uhnc f s\n" +
                 " pptgqyiy mzceoha x zeq  z y  m icpjzv ec elg ag\n" +
