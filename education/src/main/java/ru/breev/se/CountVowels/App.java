@@ -1,4 +1,4 @@
-package ru.breev.se.FileReader;
+package ru.breev.se.CountVowels;
 
 public class App {
     public static void main(String[] args) {

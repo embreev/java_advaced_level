@@ -13,8 +13,10 @@ public class Main {
     public static void main(String[] args) {
 
         Team team = new Team("team1", "Petr", "Bobik", "Murzik");
-        Team team2 = new Team("team2", "Vasily", "Rex", "Barsik");
+        Team team2 = new Team("team2", "Sidor", "Sharik", "Barsik");
+        Team team3 = new Team("team3", "Ivan", "Mukhtar", "Vasily");
         start(team);
         start(team2);
+        start(team3);
     }
 }
