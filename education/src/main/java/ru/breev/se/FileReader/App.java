@@ -30,7 +30,7 @@ public class App {
             for (char charTmp : vowels) {
                 if (c == charTmp) count += 1;
             }
-            if ((byte) c == 10) {
+            if ((byte) c == 10)  {
                 System.out.println("In line = " + line + " vowels = " + count);
                 line += 1;
                 count = 0;
