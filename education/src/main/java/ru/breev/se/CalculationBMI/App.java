@@ -26,14 +26,18 @@ public class App {
         try {
             weight = sc.nextFloat();
         } catch (InputMismatchException e) {
+            System.out.println("Error weight!");
             e.printStackTrace();
+            System.exit(1);
         }
 
         System.out.println("Enter height (m):");
         try {
             height = sc.nextFloat();
         } catch (InputMismatchException e) {
+            System.out.println("Error height!");
             e.printStackTrace();
+            System.exit(1);
         }
 
         final float bmi = calcBMI(weight, height);
