@@ -1,6 +1,12 @@
 package ru.breev.se.ExceptionHW;
 
+import java.util.Random;
+
 public class Main {
+    final static int ROW = 4;
+    final static int COLUMN = 4;
+    final static int DIMENSION = 4;
+
     static class MyArraySizeException extends Exception {
         MyArraySizeException(String msg) {
             super(msg);
@@ -14,8 +20,13 @@ public class Main {
     }
 
     static void checkSizeArray(String[][] arr) throws MyArraySizeException {
-        if (arr.length != 4) {
-            throw new MyArraySizeException("Error array size!");
+        if (arr.length > DIMENSION) {
+            throw new MyArraySizeException("Error external array size!");
+        }
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i].length > DIMENSION) {
+                throw new MyArraySizeException("Error internal array size!");
+            }
         }
     }
 
@@ -28,7 +39,7 @@ public class Main {
     }
 
     static int[][] transformArray (String[][] arr) throws MyArrayDataException {
-        int[][] newArr = new int[arr.length][arr.length];
+        int[][] newArr = new int[ROW][COLUMN];
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr.length; j++) {
                 newArr[i][j] = transformElement(arr[i][j]);
@@ -40,15 +51,29 @@ public class Main {
     static int sumElementArray(int[][] arr) {
         int sum = 0;
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                System.out.print(arr[i][j] + " ");
                 sum += arr[i][j];;
             }
+            System.out.println("");
         }
         return sum;
     }
 
+    static String[][] fillArray (int dimRow, int dimColumn) {
+        final Random random = new Random();
+        String[][] arr = new String[dimRow][dimColumn];
+        for (int i = 0; i < dimRow; i++) {
+            for (int j = 0; j < dimColumn; j++) {
+                arr[i][j] = String.valueOf(random.nextInt(10));
+            }
+
+        }
+        return arr;
+    }
+
     public static void main(String[] args) throws MyArrayDataException {
-        final String[][] arr = {{"1", "2", "3", "4"}, {"5", "6", "7", "8"}, {"1", "3", "5", "7"}, {"2", "4", "6", "8"}};
+        String[][] arr = fillArray(ROW, COLUMN);
         try {
             checkSizeArray(arr);
         }
