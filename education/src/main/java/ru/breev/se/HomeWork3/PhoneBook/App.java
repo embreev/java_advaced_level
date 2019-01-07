@@ -3,7 +3,7 @@ package ru.breev.se.HomeWork3.PhoneBook;
 import java.util.ArrayList;
 
 public class App {
-    final static ArrayList<User> phonebook = new ArrayList<>();
+    private final static ArrayList<User> phonebook = new ArrayList<>();
 
     private static void add(User user) {
         phonebook.add(user);
@@ -27,12 +27,11 @@ public class App {
 
         get("ivanov");
     }
-
 }
 
 class User {
-    String surname;
-    String phone;
+    final String surname;
+    final String phone;
 
     public User(String surname, String phone) {
         this.surname = surname;
