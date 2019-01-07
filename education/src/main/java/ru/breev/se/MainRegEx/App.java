@@ -8,7 +8,7 @@ public class App {
     static final Scanner scanner = new Scanner(System.in);
 
     private static boolean checkPassword(String pass) {
-        Pattern pattern = Pattern.compile("^(((?:\\d)+(?:[a-z])+(?:[A-Z])+)){4,}");
+        Pattern pattern = Pattern.compile("((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\\@\\#\\$\\$\\%])(?!.*[\\s]).{8,})");
         Matcher matcher = pattern.matcher(pass);
         return matcher.matches();
     }
@@ -16,7 +16,7 @@ public class App {
     public static void main(String[] args) {
         String pass = "";
         while (!pass.equals("exit")) {
-            System.out.println("Enter password or exit:");
+            System.out.println("Enter password or 'exit':");
             pass = scanner.nextLine();
             System.out.println(checkPassword(pass));
         }

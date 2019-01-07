@@ -25,7 +25,9 @@ public class App {
         add(new User("Petrov", "89555555555"));
         add(new User("Sidorov", "89666666666"));
 
-        get("ivanov");
+        get("Ivanov");
+        get("Petrov");
+        get("Sidorov");
     }
 
 }
