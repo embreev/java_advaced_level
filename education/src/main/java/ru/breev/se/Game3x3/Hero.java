@@ -9,6 +9,8 @@ abstract class Hero {
 
     // здоровье героя
     protected int health;
+    // начальное здоровье героя
+    protected int defaultHealth;
     // имя героя
     protected String name;
     // сколько урона может нанести герой
@@ -18,6 +20,7 @@ abstract class Hero {
 
     public Hero(int health, String name, int damage, int addHeal) {
         this.health = health;
+        defaultHealth = health;
         this.name = name;
         this.damage = damage;
         this.addHeal = addHeal;
@@ -30,7 +33,7 @@ abstract class Hero {
     abstract void healing(Hero hero);
 
     // метод получения удара
-    void causeDamage(int damage) {
+    void receiveDamage(int damage) {
         if(health < 0) {
             System.out.println("Герой уже мертвый!");
         } else {
@@ -45,11 +48,12 @@ abstract class Hero {
 
     // метод для добавления здоровья
     void addHealth(int health) {
-        this.health += health;
+        if (this.health < defaultHealth) {
+            this.health = (this.health + health > defaultHealth) ? defaultHealth : this.health + health;
+        }
     }
 
     void info() {
-
         System.out.println(name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage);
     }
 }
@@ -71,9 +75,9 @@ class Warrior extends Hero {
             if(health < 0) {
                 System.out.println("Герой погиб и бить не может!");
             } else {
-                hero.causeDamage(damage);
+                hero.receiveDamage(damage);
             }
-            System.out.println(this.name + " нанес урон " + hero.name);
+            System.out.println(this.name + " нанес урон " + hero.name + " " + damage);
         }
     }
 
@@ -88,12 +92,12 @@ class Warrior extends Hero {
 */
 class Assasin extends Hero {
 
-    int cricitalHit;
+    int criticalHit;
     Random random = new Random();
 
     public Assasin(int heal, String name, int damage, int addHeal) {
         super(heal, name, damage, addHeal);
-        this.cricitalHit = random.nextInt(20);
+        this.criticalHit = random.nextInt(20);
     }
 
     @Override
@@ -104,9 +108,9 @@ class Assasin extends Hero {
             if(health < 0) {
                 System.out.println("Герой погиб и бить не может!");
             } else {
-                hero.causeDamage(damage + cricitalHit);
+                hero.receiveDamage(damage + criticalHit);
             }
-            System.out.println(this.name + " нанес урон " + hero.name);
+            System.out.println(this.name + " нанес урон " + hero.name + " " + damage + " + критический " + criticalHit);
         }
     }
 
@@ -133,6 +137,7 @@ class Doctor extends Hero {
     @Override
     void healing(Hero hero) {
         hero.addHealth(addHeal);
+        System.out.println(this.name + " вылечил " + hero.name + " на " + addHeal);
     }
 }
 
@@ -179,11 +184,13 @@ class Game {
             }
         }
 
-        System.out.println("---------------");
+        System.out.println("===============");
 
         for (Hero t1: team1) {
             t1.info();
         }
+
+        System.out.println("---------------");
 
         for (Hero t2: team2) {
             t2.info();
