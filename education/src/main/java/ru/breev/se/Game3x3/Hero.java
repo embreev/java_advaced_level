@@ -146,10 +146,10 @@ class Doctor extends Hero {
 class Game {
     public static void main(String[] args) {
 
-        Random randomStep = new Random();
-        Random randomHealing = new Random();
+        final Random randomStep = new Random();
+        final Random randomHealing = new Random();
         // количество раундов
-        int round = 50;
+        final int round = 50;
 
 //        // создаюстся две команды
 //        Hero[] team1 = new Hero[]{new Warrior(250, "Тигрил", 50, 0)
@@ -161,10 +161,12 @@ class Game {
 //                , new Assasin(160, "Джинкс", 90, 0)
 //                , new Doctor(50, "Зои", 0, 35)};
 
-        ArrayList<Hero> team1 = new ArrayList<>();
-        ArrayList<Hero> team2 = new ArrayList<>();
+//        final String[] heroes = {"Warrior", "Assasin", "Doctor"};
+        final ArrayList<Hero> team1 = new ArrayList<>();
+        final ArrayList<Hero> team2 = new ArrayList<>();
 
-        UI window = new UI();
+        final GUI ui = new GUI();
+        ui.createGUI();
 
 
 //        for (int j = 0; j < round; j++) {
