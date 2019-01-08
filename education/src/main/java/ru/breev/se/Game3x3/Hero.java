@@ -28,19 +28,19 @@ abstract class Hero {
     }
 
     // метод нанесения удара
-    abstract void hit(Hero hero);
+    abstract String hit(Hero hero);
 
     // метод лечения
-    abstract void healing(Hero hero);
+    abstract String healing(Hero hero);
 
     // метод получения удара
-    void receiveDamage(int damage) {
+    String receiveDamage(int damage) {
         if(health < 0) {
-            System.out.println("Герой уже мертвый!");
+            return "Герой уже мертвый!";
         } else {
             health -= damage;
         }
-
+        return null;
     }
 
     public int getHealth() {
@@ -54,8 +54,8 @@ abstract class Hero {
         }
     }
 
-    void info() {
-        System.out.println(name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage);
+    String info() {
+        return name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage;
     }
 }
 
@@ -69,22 +69,23 @@ class Warrior extends Hero {
     }
 
     @Override
-    void hit(Hero hero) {
+    String hit(Hero hero) {
         // если герой не он сам, он может ударить
         if (hero != this) {
             // если у герой которого бьют жив, его можно ударить
             if(health < 0) {
-                System.out.println("Герой погиб и бить не может!");
+                return "Герой погиб и бить не может!";
             } else {
                 hero.receiveDamage(damage);
             }
-            System.out.println(this.name + " нанес урон " + hero.name + " " + damage);
+            return this.name + " нанес урон " + hero.name + " " + damage;
         }
+        return null;
     }
 
     @Override
-    void healing(Hero hero) {
-        System.out.println("Войны не умеют лечить!");
+    String healing(Hero hero) {
+        return "Войны не умеют лечить!";
     }
 }
 
@@ -102,22 +103,23 @@ class Assasin extends Hero {
     }
 
     @Override
-    void hit(Hero hero) {
+    String hit(Hero hero) {
         // если герой не он сам, он может ударить
         if (hero != this) {
             // если у герой которого бьют жив, его можно ударить
             if(health < 0) {
-                System.out.println("Герой погиб и бить не может!");
+                return "Герой погиб и бить не может!";
             } else {
                 hero.receiveDamage(damage + criticalHit);
             }
-            System.out.println(this.name + " нанес урон " + hero.name + " " + damage + " + критический " + criticalHit);
+            return this.name + " нанес урон " + hero.name + " " + damage + " + критический " + criticalHit;
         }
+        return null;
     }
 
     @Override
-    void healing(Hero hero) {
-        System.out.println("Убийцы не умеют лечить!");
+    String healing(Hero hero) {
+        return "Убийцы не умеют лечить!";
     }
 }
 
@@ -131,40 +133,79 @@ class Doctor extends Hero {
     }
 
     @Override
-    void hit(Hero hero) {
-        System.out.println("Доктор не может бить!");
+    String hit(Hero hero) {
+        return "Доктор не может бить!";
     }
 
     @Override
-    void healing(Hero hero) {
+    String healing(Hero hero) {
         hero.addHealth(addHeal);
-        System.out.println(this.name + " вылечил " + hero.name + " на " + addHeal);
+        return this.name + " вылечил " + hero.name + " на " + addHeal;
     }
 }
 
 
 class Game {
+    final static ArrayList<Hero> team1 = new ArrayList<>();
+    final static ArrayList<Hero> team2 = new ArrayList<>();
+    static boolean flag = false;
+    static final Random randomStep = new Random();
+    static final Random randomHealing = new Random();
+
+    static void addHeroTeam1(String classHero) {
+        switch (classHero) {
+            case "Warrior":
+                team1.add(new Warrior(250, "Тигрил", 50, 0));
+                break;
+            case "Assasin":
+                team1.add(new Assasin(150, "Акали", 70, 0));
+                break;
+            case "Doctor":
+                team1.add(new Doctor(50, "Жанна", 0, 30));
+                break;
+        }
+    }
+
+    static void addHeroTeam2(String classHero) {
+        switch (classHero) {
+            case "Warrior":
+                team2.add(new Warrior(290, "Минотавр", 60, 0));
+                break;
+            case "Assasin":
+                team2.add(new Assasin(160, "Джинкс", 90, 0));
+                break;
+            case "Doctor":
+                team2.add(new Doctor(50, "Зои", 0, 35));
+                break;
+        }
+    }
+
+    static void go() {
+//        while (!flag){
+        for (int j = 0; j < 10; j++) {
+            // проходим по всем участникам команды
+            for (int i = 0; i < team1.size(); i++) {
+                // рандомно выбираем кто будет первый ходить
+                if(randomStep.nextInt(2) == 0) {
+                    // если персонаж не доктор, то он может ударить
+                    // если доктор, то он лечит
+                    if(team1.get(i) instanceof Doctor) {
+                        team1.get(i).healing(team1.get(randomHealing.nextInt(2)));
+                    } else {
+                        team1.get(i).hit(team2.get(i));
+                    }
+                } else {
+                    if(team2.get(i) instanceof Doctor) {
+                        team2.get(i).healing(team2.get(randomHealing.nextInt(2)));
+                    } else {
+                        team2.get(i).hit(team1.get(i));
+                    }
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
-
-        final Random randomStep = new Random();
-        final Random randomHealing = new Random();
-        // количество раундов
-        final int round = 50;
-
-//        // создаюстся две команды
-//        Hero[] team1 = new Hero[]{new Warrior(250, "Тигрил", 50, 0)
-//                , new Assasin(150, "Акали", 70, 0)
-//                , new Doctor(50, "Жанна", 0, 30)};
-//
-//
-//        Hero[] team2 = new Hero[]{new Warrior(290, "Минотавр", 60, 0)
-//                , new Assasin(160, "Джинкс", 90, 0)
-//                , new Doctor(50, "Зои", 0, 35)};
-
-//        final String[] heroes = {"Warrior", "Assasin", "Doctor"};
-        final ArrayList<Hero> team1 = new ArrayList<>();
-        final ArrayList<Hero> team2 = new ArrayList<>();
-
         final GUI ui = new GUI();
         ui.createGUI();
 
