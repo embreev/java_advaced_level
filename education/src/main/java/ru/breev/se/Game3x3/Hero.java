@@ -1,5 +1,6 @@
 package ru.breev.se.Game3x3;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /*
@@ -148,52 +149,56 @@ class Game {
         Random randomStep = new Random();
         Random randomHealing = new Random();
         // количество раундов
-        int round = 3;
+        int round = 50;
 
-        // создаюстся две команды
-        Hero[] team1 = new Hero[]{new Warrior(250, "Тигрил", 50, 0)
-                , new Assasin(150, "Акали", 70, 0)
-                , new Doctor(120, "Жанна", 0, 60)};
+//        // создаюстся две команды
+//        Hero[] team1 = new Hero[]{new Warrior(250, "Тигрил", 50, 0)
+//                , new Assasin(150, "Акали", 70, 0)
+//                , new Doctor(50, "Жанна", 0, 30)};
+//
+//
+//        Hero[] team2 = new Hero[]{new Warrior(290, "Минотавр", 60, 0)
+//                , new Assasin(160, "Джинкс", 90, 0)
+//                , new Doctor(50, "Зои", 0, 35)};
+
+        ArrayList<Hero> team1 = new ArrayList<>();
+        ArrayList<Hero> team2 = new ArrayList<>();
+
+        UI window = new UI();
 
 
-        Hero[] team2 = new Hero[]{new Warrior(290, "Минотавр", 60, 0)
-                , new Assasin(160, "Джинкс", 90, 0)
-                , new Doctor(110, "Зои", 0, 80)};
-
-
-
-        for (int j = 0; j < round; j++) {
-            // проходим по всем участникам команды
-            for (int i = 0; i < team1.length; i++) {
-                // рандомно выбираем кто будет первый ходить
-                if(randomStep.nextInt(2) == 0) {
-                    // если персонаж не доктор, то он может удрарить
-                    // если доктор, то он лечит
-                    if(team1[i] instanceof Doctor) {
-                        team1[i].healing(team1[randomHealing.nextInt(2)]);
-                    } else {
-                        team1[i].hit(team2[i]);
-                    }
-                } else {
-                    if(team2[i] instanceof Doctor) {
-                        team2[i].healing(team2[randomHealing.nextInt(2)]);
-                    } else {
-                        team2[i].hit(team1[i]);
-                    }
-                }
-            }
-        }
-
-        System.out.println("===============");
-
-        for (Hero t1: team1) {
-            t1.info();
-        }
-
-        System.out.println("---------------");
-
-        for (Hero t2: team2) {
-            t2.info();
-        }
+//        for (int j = 0; j < round; j++) {
+//            // проходим по всем участникам команды
+//            for (int i = 0; i < team1.length; i++) {
+//                // рандомно выбираем кто будет первый ходить
+//                if(randomStep.nextInt(2) == 0) {
+//                    // если персонаж не доктор, то он может удрарить
+//                    // если доктор, то он лечит
+//                    if(team1[i] instanceof Doctor) {
+//                        team1[i].healing(team1[randomHealing.nextInt(2)]);
+//                    } else {
+//                        team1[i].hit(team2[i]);
+//                    }
+//                } else {
+//                    if(team2[i] instanceof Doctor) {
+//                        team2[i].healing(team2[randomHealing.nextInt(2)]);
+//                    } else {
+//                        team2[i].hit(team1[i]);
+//                    }
+//                }
+//            }
+//        }
+//
+//        System.out.println("===============");
+//
+//        for (Hero t1: team1) {
+//            t1.info();
+//        }
+//
+//        System.out.println("---------------");
+//
+//        for (Hero t2: team2) {
+//            t2.info();
+//        }
     }
 }
