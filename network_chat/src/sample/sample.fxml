@@ -1,8 +1,15 @@
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.layout.GridPane?>
-
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<GridPane fx:controller="sample.Controller"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-</GridPane>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<VBox fx:controller="sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center">
+    <Label fx:id="label" text="СЕТЕВОЙ ЧАТ"/>
+    <TextArea fx:id="textArea" editable="false" VBox.vgrow="ALWAYS"/>
+    <HBox>
+        <TextField fx:id="textField" HBox.hgrow="ALWAYS" promptText="Введите сообщение ..." onAction="#sendMessage"/>
+        <Button fx:id="button" text="ОТПРАВИТЬ" onAction="#sendMessage"/>
+    </HBox>
+
+</VBox>
