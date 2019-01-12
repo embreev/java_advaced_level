@@ -35,7 +35,7 @@ abstract class Hero {
 
     // метод получения удара
     String receiveDamage(int damage) {
-        if(health < 0) {
+        if (health <= 0) {
             return "Герой уже мертвый!";
         } else {
             health -= damage;
@@ -55,7 +55,7 @@ abstract class Hero {
     }
 
     String info() {
-        return name + " " + (health < 0 ? "Герой мертвый" : health) + " " + damage;
+        return name + " " + (health <= 0 ? "Герой мертвый" : health) + " " + damage;
     }
 }
 
@@ -73,12 +73,12 @@ class Warrior extends Hero {
         // если герой не он сам, он может ударить
         if (hero != this) {
             // если у герой которого бьют жив, его можно ударить
-            if(health < 0) {
+            if (health <= 0) {
                 return "Герой погиб и бить не может!";
             } else {
                 hero.receiveDamage(damage);
             }
-            return this.name + " нанес урон " + hero.name + " " + damage;
+            return "Воин " + this.name + " нанес урон " + hero.name + " " + damage;
         }
         return null;
     }
@@ -107,12 +107,12 @@ class Assasin extends Hero {
         // если герой не он сам, он может ударить
         if (hero != this) {
             // если у герой которого бьют жив, его можно ударить
-            if(health < 0) {
+            if (health <= 0) {
                 return "Герой погиб и бить не может!";
             } else {
                 hero.receiveDamage(damage + criticalHit);
             }
-            return this.name + " нанес урон " + hero.name + " " + damage + " + критический " + criticalHit;
+            return "Убийца " + this.name + " нанес урон " + hero.name + " " + damage + " + критический " + criticalHit;
         }
         return null;
     }
@@ -134,23 +134,29 @@ class Doctor extends Hero {
 
     @Override
     String hit(Hero hero) {
-        return "Доктор не может бить!";
+        return "Лекарь не может бить!";
     }
 
     @Override
     String healing(Hero hero) {
         hero.addHealth(addHeal);
-        return this.name + " вылечил " + hero.name + " на " + addHeal;
+        return "Лекарь " + this.name + " вылечил " + hero.name + " на " + addHeal;
     }
 }
 
 
 class Game {
-    final static ArrayList<Hero> team1 = new ArrayList<>();
-    final static ArrayList<Hero> team2 = new ArrayList<>();
-    static boolean flag = false;
-    static final Random randomStep = new Random();
-    static final Random randomHealing = new Random();
+    protected static ArrayList<Hero> team1 = new ArrayList<>();
+    protected static ArrayList<Hero> team2 = new ArrayList<>();
+    protected static final Random randomStep = new Random();
+    protected static final Random randomHealing = new Random();
+    protected static String status;
+    protected static int quantityHeros = 3;
+    protected static boolean flag = true;
+
+    static int getQuantityHeros(ArrayList<Hero> team) {
+        return team.size();
+    }
 
     static void addHeroTeam1(String classHero) {
         switch (classHero) {
@@ -180,26 +186,48 @@ class Game {
         }
     }
 
+    static void checkWinner() {
+        int countTeam1 = 0;
+        int countTeam2 = 0;
+
+        for (Hero hero : team1) {
+            if (hero.health <= 0) {
+                countTeam1++;
+            }
+        }
+        for (Hero hero : team2) {
+            if (hero.health <= 0) {
+                countTeam2++;
+            }
+        }
+
+        if (countTeam1 == quantityHeros) {
+            status = "=====================\nПобедила Команда 1";
+            flag = false;
+        }
+        if (countTeam2 == quantityHeros) {
+            status = "=====================\nПобедила Команда 2";
+            flag = false;
+        }
+    }
+
     static void go() {
-//        while (!flag){
-        for (int j = 0; j < 10; j++) {
-            // проходим по всем участникам команды
-            for (int i = 0; i < team1.size(); i++) {
-                // рандомно выбираем кто будет первый ходить
-                if(randomStep.nextInt(2) == 0) {
-                    // если персонаж не доктор, то он может ударить
-                    // если доктор, то он лечит
-                    if(team1.get(i) instanceof Doctor) {
-                        team1.get(i).healing(team1.get(randomHealing.nextInt(2)));
-                    } else {
-                        team1.get(i).hit(team2.get(i));
-                    }
+        // проходим по всем участникам команды
+        for (int i = 0; i < quantityHeros; i++) {
+            // рандомно выбираем кто будет первый ходить
+            if (randomStep.nextInt(2) == 0) {
+                // если персонаж не доктор, то он может ударить
+                // если доктор, то он лечит
+                if (team1.get(i) instanceof Doctor) {
+                    status = team1.get(i).healing(team1.get(randomHealing.nextInt(2)));
                 } else {
-                    if(team2.get(i) instanceof Doctor) {
-                        team2.get(i).healing(team2.get(randomHealing.nextInt(2)));
-                    } else {
-                        team2.get(i).hit(team1.get(i));
-                    }
+                    status = team1.get(i).hit(team2.get(i));
+                }
+            } else {
+                if (team2.get(i) instanceof Doctor) {
+                    status = team2.get(i).healing(team2.get(randomHealing.nextInt(2)));
+                } else {
+                    status = team2.get(i).hit(team1.get(i));
                 }
             }
         }
@@ -208,40 +236,5 @@ class Game {
     public static void main(String[] args) {
         final GUI ui = new GUI();
         ui.createGUI();
-
-
-//        for (int j = 0; j < round; j++) {
-//            // проходим по всем участникам команды
-//            for (int i = 0; i < team1.length; i++) {
-//                // рандомно выбираем кто будет первый ходить
-//                if(randomStep.nextInt(2) == 0) {
-//                    // если персонаж не доктор, то он может удрарить
-//                    // если доктор, то он лечит
-//                    if(team1[i] instanceof Doctor) {
-//                        team1[i].healing(team1[randomHealing.nextInt(2)]);
-//                    } else {
-//                        team1[i].hit(team2[i]);
-//                    }
-//                } else {
-//                    if(team2[i] instanceof Doctor) {
-//                        team2[i].healing(team2[randomHealing.nextInt(2)]);
-//                    } else {
-//                        team2[i].hit(team1[i]);
-//                    }
-//                }
-//            }
-//        }
-//
-//        System.out.println("===============");
-//
-//        for (Hero t1: team1) {
-//            t1.info();
-//        }
-//
-//        System.out.println("---------------");
-//
-//        for (Hero t2: team2) {
-//            t2.info();
-//        }
     }
 }

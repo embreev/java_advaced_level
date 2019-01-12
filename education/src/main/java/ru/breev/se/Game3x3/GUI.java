@@ -15,7 +15,7 @@ public class GUI {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setPreferredSize(new Dimension(500, 500));
         window.setResizable(false);
-        window.setLayout(new GridLayout(4, 1));
+        window.setLayout(new BorderLayout());
 
         JPanel heroPanel = new JPanel();
         final JComboBox<String> heroTeam1 = new JComboBox(heroes);
@@ -26,6 +26,8 @@ public class GUI {
         heroPanel.add(buttonAddHeroTeam1);
         heroPanel.add(heroTeam2);
         heroPanel.add(buttonAddHeroTeam2);
+
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
 
         JPanel teamPanel = new JPanel();
         final JTextArea team1Area = new JTextArea(10, 20);
@@ -38,23 +40,28 @@ public class GUI {
         JPanel logPanel = new JPanel();
         final JTextArea logArea = new JTextArea(10, 40);
         logArea.setEditable(false);
-        logPanel.add(logArea);
+        JScrollPane scrollPane = new JScrollPane(logArea);
+        logPanel.add(scrollPane);
+
+        mainPanel.add(teamPanel);
+        mainPanel.add(logPanel);
 
         JPanel buttonPanel = new JPanel();
         JButton buttonStart = new JButton("Start");
         buttonPanel.add(buttonStart);
 
-        window.add(heroPanel);
-        window.add(teamPanel);
-        window.add(logPanel);
-        window.add(buttonPanel);
+        window.add(heroPanel, BorderLayout.NORTH);
+        window.add(mainPanel, BorderLayout.CENTER);
+        window.add(buttonPanel, BorderLayout.SOUTH);
 
         ActionListener alHeroTeam1 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String item = (String) heroTeam1.getSelectedItem();
-                team1Area.append(item + "\n");
-                addHeroTeam1(item);
+                if (getQuantityHeros(team1) < quantityHeros) {
+                    team1Area.append(item + "\n");
+                    addHeroTeam1(item);
+                }
             }
         };
         buttonAddHeroTeam1.addActionListener(alHeroTeam1);
@@ -63,8 +70,10 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String item = (String) heroTeam2.getSelectedItem();
-                team2Area.append(item + "\n");
-                addHeroTeam2(item);
+                if (getQuantityHeros(team2) < quantityHeros) {
+                    team2Area.append(item + "\n");
+                    addHeroTeam2(item);
+                }
             }
         };
         buttonAddHeroTeam2.addActionListener(alHeroTeam2);
@@ -72,11 +81,17 @@ public class GUI {
         ActionListener startGame = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                String item = (String)heroTeam2.getSelectedItem();
-//                team2Area.append(item + "\n");
-//                addHeroTeam2(item);
+                logArea.setText("");
+                int i = 0;
+                while (i < 10) {
+                    go();
+                    logArea.append(status + "\n");
+                    i++;
+//                    checkWinner();
+                }
 
-                go();
+                logArea.append("=====================\n" +
+                        "Statistics game:\n");
 
                 for (Hero t1 : team1) {
                     logArea.append(t1.info() + "\n");
