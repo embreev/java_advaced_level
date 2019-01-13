@@ -1,0 +1,16 @@
+#textArea {
+    -fx-width: 100%;
+    -fx-background: gray;
+}
+.text-area .text {
+    -fx-text-alignment: right;
+}
+#button {
+    -fx-text-fill: blue;
+}
+#vbox {
+    -fx-padding: 5;
+}
+#hbox {
+    -fx-margin: 10;
+}
