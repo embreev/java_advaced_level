@@ -1,2 +1,4 @@
 *.zip
 *.pdf
+/.idea/
+/network_chat/
