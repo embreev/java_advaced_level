@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import java.net.URL?>
-<!--<?scenebuilder-stylesheet "/ru/breev/se/network_chat/css/style.css"?>-->
+<?scenebuilder-stylesheet "/ru/breev/se/network_chat/css/style.css"?>
 <?import javafx.scene.control.ScrollPane?>
 
 <?import javafx.scene.text.Text?>
 <VBox fx:id="vbox" fx:controller="ru.breev.se.network_chat.sample.Controller" xmlns:fx="http://javafx.com/fxml" alignment="center">
-    <!--<stylesheets><URL value="@/ru/breev/se/network_chat/css/style.css"/></stylesheets>-->
+    <stylesheets><URL value="@/ru/breev/se/network_chat/css/style.css"/></stylesheets>
     <Text fx:id="text" text="СЕТЕВОЙ ЧАТ"/>
     <ScrollPane fx:id="sp" VBox.vgrow="ALWAYS">
         <VBox fx:id="msg" VBox.vgrow="ALWAYS" HBox.hgrow="ALWAYS"/>
